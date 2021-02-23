@@ -1,6 +1,9 @@
+/* eslint-disable quotes */
+/* eslint-disable indent */
 require('dotenv').config();
 
 const { execSync } = require('child_process');
+const { ENETDOWN } = require('constants');
 
 const fakeRequest = require('supertest');
 const app = require('../lib/app');
@@ -118,6 +121,100 @@ describe('app routes', () => {
           .expect(200);
 
         expect(data.body).toEqual(expectation);
+      });
+
+    test
+      ('post a new quote', async () => {
+
+        const expectation =
+        {
+          "id": 7,
+          "image": false,
+          "name": "Alexis",
+          "funny_level": "200",
+          "category": "star",
+          "quote": "Eew, David!",
+          "owner_id": 1
+        };
+        const newQuote = {
+          id: 7,
+          image: false,
+          name: "Alexis",
+          funny_level: 200,
+          category: "star",
+          quote: "Eew, David!",
+          owner_id: 1
+        }
+
+        const data = await fakeRequest(app)
+          .post('/quotesCreek')
+          .send(newQuote)
+          .expect('Content-Type', /json/)
+          .expect(200);
+
+        expect(data.body).toEqual(expectation);
+      });
+
+    test('deletes a quote', async () => {
+
+      const expectation =
+      {
+        "id": 1,
+        "image": true,
+        "name": "David",
+        "funny_level": "100",
+        "category": "star",
+        "quote": "I haven’t bedazzled anything since I was twenty-two.",
+        "owner_id": 1
+      };
+
+      const data = await fakeRequest(app)
+        .delete('/quotesCreek/1')
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      expect(data.body).toEqual(expectation);
+
+      const takeAway = await fakeRequest(app)
+        .get('/quotesCreek/1')
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      expect(takeAway.body).toEqual("");
+    });
+
+    test
+      ('updates a quote', async () => {
+
+        const newQuote = {
+          id: 5,
+          image: true,
+          name: "Roland",
+          funny_level: "100",
+          category: "secondary",
+          quote: "If you’re looking for an ass to kiss, it’s mine.",
+          owner_id: 1
+        }
+
+        const expectation =
+        {
+          ...newQuote,
+          "id": 5,
+          "owner_id": 1
+        };
+
+        await fakeRequest(app)
+          .put('/quotesCreek/5')
+          .send(newQuote)
+          .expect('Content-Type', /json/)
+          .expect(200);
+
+        const updatedQuote = await fakeRequest(app)
+          .get('/quotesCreek/5')
+          .expect('Content-Type', /json/)
+          .expect(200);
+
+        expect(updatedQuote.body).toEqual(expectation);
       });
   });
 });
