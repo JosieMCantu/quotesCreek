@@ -38,10 +38,10 @@ async function run() {
     await Promise.all(
       quotesCreek.map(quote => {
         return client.query(`
-                    INSERT INTO quotesCreek (id, image, name, funny_level, category_id, quote, owner_id)
+                    INSERT INTO quotesCreek (image, name, funny_level, category_id, quote, owner_id)
                     VALUES ($1, $2, $3, $4, $5, $6);
                 `,
-          [quote.id, quote.image, quote.name, quote.funny_level, quote.category_id, quote.quote, user.id]);
+          [quote.image, quote.name, quote.funny_level, quote.category_id, quote.quote, user.id]);
       })
     );
 
