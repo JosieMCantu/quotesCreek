@@ -107,7 +107,7 @@ describe('app routes', () => {
           "funny_level": "100",
           "category": "star",
           "category_id": 1,
-          // "owner_id": 1,
+          "owner_id": 1,
           "quote": "I haven’t bedazzled anything since I was twenty-two.",
         }
           ;
@@ -129,7 +129,7 @@ describe('app routes', () => {
           "image": false,
           "name": "Alexis",
           "funny_level": "200",
-          "category": "star",
+          "category_id": 1,
           "owner_id": 1,
           "quote": "Eew, David!",
         };
@@ -138,7 +138,7 @@ describe('app routes', () => {
           image: false,
           name: "Alexis",
           funny_level: 200,
-          category: "star",
+          category_id: 1,
           quote: "Eew, David!",
           owner_id: 1
         }
@@ -188,7 +188,7 @@ describe('app routes', () => {
           image: true,
           name: "Roland",
           funny_level: "100",
-          category: "secondary",
+          category_id: 2,
           quote: "If you’re looking for an ass to kiss, it’s mine.",
           owner_id: 1
         }
@@ -197,7 +197,8 @@ describe('app routes', () => {
         {
           ...newQuote,
           "id": 5,
-          "owner_id": 1
+          "owner_id": 1,
+          "category": "main"
         };
 
         await fakeRequest(app)
