@@ -34,62 +34,58 @@ describe('app routes', () => {
       return client.end(done);
     });
 
-    test('returns all the quotes', async () => {
+    test('returns all the quotes with category_id', async () => {
 
       const expectation = [
         {
-          "id": 1,
+          "image": false,
+          "name": "Johnny",
+          "funny_level": "100",
+          "category": "star",
+          "category_id": 1,
+          "quote": "Oh, I know I don’t have any money, but I need to look like I don’t have money."
+        },
+        {
           "image": true,
           "name": "David",
           "funny_level": "100",
           "category": "star",
-          "quote": "I haven’t bedazzled anything since I was twenty-two.",
-          "owner_id": 1
+          "category_id": 1,
+          "quote": "I haven’t bedazzled anything since I was twenty-two."
         },
         {
-          "id": 2,
-          "image": true,
-          "name": "Alexis",
-          "funny_level": "200",
-          "category": "star",
-          "quote": "Stop doing that with your face.",
-          "owner_id": 1
-        }, {
-          "id": 3,
-          "image": true,
-          "name": "Moira",
-          "funny_level": "500",
-          "category": "main",
-          "quote": "I just want a bathtub and a long extension cord, please.",
-          "owner_id": 1
-        },
-        {
-          "id": 4,
-          "image": false,
-          "name": "Stevie",
-          "funny_level": "100",
-          "category": "main",
-          "quote": "I’m incapable of faking sincerity.",
-          "owner_id": 1
-        },
-        {
-          "id": 5,
           "image": true,
           "name": "Roland",
           "funny_level": "300",
-          "category": "secondary",
-          "quote": "If you’re looking for an ass to kiss, it’s mine.",
-          "owner_id": 1
+          "category": "main",
+          "category_id": 2,
+          "quote": "If you’re looking for an ass to kiss, it’s mine."
         },
         {
-          "id": 6,
-          "image": false,
-          "name": "Johnny",
-          "funny_level": "100",
+          "image": true,
+          "name": "Alexis",
+          "funny_level": "200",
           "category": "main",
-          "quote": "Oh, I know I don’t have any money, but I need to look like I don’t have money.",
-          "owner_id": 1
-        }]
+          "category_id": 2,
+          "quote": "Stop doing that with your face."
+        },
+        {
+          "image": false,
+          "name": "Stevie",
+          "funny_level": "100",
+          "category": "secondary",
+          "category_id": 3,
+          "quote": "I’m incapable of faking sincerity."
+        },
+        {
+          "image": true,
+          "name": "Moira",
+          "funny_level": "500",
+          "category": "secondary",
+          "category_id": 3,
+          "quote": "I just want a bathtub and a long extension cord, please."
+        }
+      ]
         ;
 
       const data = await fakeRequest(app)
@@ -110,8 +106,9 @@ describe('app routes', () => {
           "name": "David",
           "funny_level": "100",
           "category": "star",
+          "category_id": 1,
+          "owner_id": 1,
           "quote": "I haven’t bedazzled anything since I was twenty-two.",
-          "owner_id": 1
         }
           ;
 
@@ -132,16 +129,16 @@ describe('app routes', () => {
           "image": false,
           "name": "Alexis",
           "funny_level": "200",
-          "category": "star",
+          "category_id": 1,
+          "owner_id": 1,
           "quote": "Eew, David!",
-          "owner_id": 1
         };
         const newQuote = {
           id: 7,
           image: false,
           name: "Alexis",
           funny_level: 200,
-          category: "star",
+          category_id: 1,
           quote: "Eew, David!",
           owner_id: 1
         }
@@ -163,9 +160,9 @@ describe('app routes', () => {
         "image": true,
         "name": "David",
         "funny_level": "100",
-        "category": "star",
+        "category_id": 1,
+        "owner_id": 1,
         "quote": "I haven’t bedazzled anything since I was twenty-two.",
-        "owner_id": 1
       };
 
       const data = await fakeRequest(app)
@@ -191,7 +188,7 @@ describe('app routes', () => {
           image: true,
           name: "Roland",
           funny_level: "100",
-          category: "secondary",
+          category_id: 2,
           quote: "If you’re looking for an ass to kiss, it’s mine.",
           owner_id: 1
         }
@@ -200,7 +197,8 @@ describe('app routes', () => {
         {
           ...newQuote,
           "id": 5,
-          "owner_id": 1
+          "owner_id": 1,
+          "category": "main"
         };
 
         await fakeRequest(app)
